@@ -1,7 +1,13 @@
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      borderRadius: {
+        md: '4px',
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }

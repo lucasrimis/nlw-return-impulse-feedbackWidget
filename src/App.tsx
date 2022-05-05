@@ -1,10 +1,10 @@
-import { Widget } from "./Widget";
+import { WidgetButton } from "./components/WidgetButton";
 
 
 function App() {
 
   return (
-    <Widget/>
+    <WidgetButton/>
   );
 }
 
