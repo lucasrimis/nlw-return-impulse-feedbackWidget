@@ -1,14 +1,29 @@
 import { ArrowLeft, Camera } from "phosphor-react";
-import { FeebackType, feedbackTypes } from "..";
+import { FormEvent, useState } from "react";
+import { FeedbackType, feedbackTypes } from "..";
 import { CloseButton } from "../../CloseButton";
+import { ScreenshotButton } from "./ScreenshotButton";
 
 interface FeedbackContentProps {
-  feedbackType: FeebackType;
+  feedbackType: FeedbackType;
   onFeedbackRestartRequested: () => void;
+  onFeedbackSent: () => void;
 }
 
-export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested }: FeedbackContentProps) {
+export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested, onFeedbackSent }: FeedbackContentProps) {
   const feedbackTypeInfo = feedbackTypes[feedbackType];
+  const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [comment, setComment] = useState('');
+
+  function handleSubmitFeedback(event: FormEvent) {
+    event.preventDefault();
+    console.log({
+      screenshot,
+      comment,
+    })
+
+    onFeedbackSent();
+  }
 
   return (
     <>
@@ -27,15 +42,24 @@ export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested }
         <CloseButton />
       </header>
 
-      <form className="my-4 w-full">
-        <textarea placeholder="Conte com detalhes o que está acontecendo" className="min-w-[304px] w-full min-h-[112px] text-sm placeholder-zinc-400 text-zinc-100 border-zinc-600 bg-transparent rounded-md focus:border-violet-500 focus:ring-violet-500 focus:ring-1 focus:outline-none resize-none"/>
+      <form className="my-4 w-full" onSubmit={handleSubmitFeedback}>
+        <textarea 
+          placeholder="Conte com detalhes o que está acontecendo" 
+          className="min-w-[304px] w-full min-h-[112px] text-sm placeholder-zinc-400 text-zinc-100 border-zinc-600 bg-transparent rounded-md focus:border-violet-500 focus:ring-violet-500 focus:ring-1 focus:outline-none resize-none"
+          onChange={event => setComment(event.target.value)}
+        />
 
         <footer className="flex gap-2 mt-2">
-          <button type="button" className="p-2 bg-zinc-800 rounded-md border-transparent hover:bg-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-violet-500">
-            <Camera className="w-6 h-6 text-zinc-100"/>
-          </button>
+          <ScreenshotButton
+             screenshot={screenshot}
+            onScreenshotTook={setScreenshot}
+          />
 
-          <button type="submit" className="p-2 bg-violet-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-violet-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-violet-500 transition-colors">
+          <button 
+            type="submit" 
+            className="p-2 bg-violet-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-violet-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-violet-500 transition-colors disabled:opacity-50 disabled:bg-violet-500"
+            disabled={comment.length === 0 ? true : false}
+          >
             Enviar Feedback
           </button>
         </footer>
