@@ -1,12 +1,12 @@
-import { FeebackType, feedbackTypes } from "..";
+import { FeedbackType, feedbackTypes } from "..";
 import { CloseButton } from "../../CloseButton";
 
-interface FeebackTypeStepProps {
-  onFeedbackTypeChanged: (type: FeebackType) => void;
+interface FeedbackTypeStepProps {
+  onFeedbackTypeChanged: (type: FeedbackType) => void;
 }
 
 
-export function FeebackTypeStep({ onFeedbackTypeChanged }: FeebackTypeStepProps) {
+export function FeedbackTypeStep({ onFeedbackTypeChanged }: FeedbackTypeStepProps) {
   return (
     <>
       <header>
@@ -21,7 +21,7 @@ export function FeebackTypeStep({ onFeedbackTypeChanged }: FeebackTypeStepProps)
             key={ key } 
             type='button' 
             className="bg-zinc-800 rounded-lg py-5 w-24 flex-1 flex flex-col items-center gap-2 border-2 border-transparent hover:border-violet-500 focus:border-violet-500 focus:outline-none"
-            onClick={() => onFeedbackTypeChanged(key as FeebackType)}
+            onClick={() => onFeedbackTypeChanged(key as FeedbackType)}
           >
             <img src={value.image.source} alt={value.image.alt}/>
             <span>{value.title}</span>
